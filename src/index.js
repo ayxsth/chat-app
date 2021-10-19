@@ -42,6 +42,10 @@ io.on("connection", (socket) => {
                 "message",
                 generateMessage("Admin", `${user.username} has hopped in!`)
             );
+        io.to(user.room).emit("roomData", {
+            room: user.room.toUpperCase(),
+            users: getUsersInRoom(user.room)
+        });
 
         callback();
     });
@@ -80,6 +84,10 @@ io.on("connection", (socket) => {
                 "message",
                 generateMessage("Admin", `${user.username} has left!`)
             );
+            io.to(user.room).emit("roomData", {
+                room: user.room.toUpperCase(),
+                users: getUsersInRoom(user.room)
+            });
         }
     });
 });
